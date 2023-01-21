@@ -7,27 +7,55 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import { Link } from 'react-router-dom'
 
-const ProductGridItem = () => {
+import { IProduct } from '../../interfaces/product'
+
+interface IProps {
+    product: IProduct
+}
+
+const ProductGridItem = ({
+    product: {
+        id,
+        name,
+        description,
+        imageUrl,
+        price,
+    },
+}: IProps) => {
     return (
-        <Card sx={{ maxWidth: 345 }}>
-            <CardActionArea component={Link} to="/products/id">
-                <CardMedia
-                    sx={{ height: 150 }}
-                    image="/static/images/cards/contemplative-reptile.jpg"
-                    title="green iguana"
-                />
+        <Card sx={{ maxWidth: 345, height: '100%' }}>
+            <CardActionArea
+                sx={{
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'initial',
+                    justifyContent: 'flex-start',
+                }}
+                component={Link}
+                to={`/products/${id}`}
+            >
+                <CardContent>
+                    <CardMedia
+                        sx={{ height: 150, backgroundSize: 'contain' }}
+                        image={imageUrl}
+                        title={name}
+                    />
+                </CardContent>
 
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                        Lizard
+                        {name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                        species, ranging across all continents except Antarctica
+                        {description}
+                    </Typography>
+                    <Typography variant="h6">
+                        {price}$
                     </Typography>
                 </CardContent>
 
-                <CardActions>
+                <CardActions sx={{ marginTop: 'auto' }}>
                     <Button size="small">Add to Cart</Button>
                 </CardActions>
             </CardActionArea>
