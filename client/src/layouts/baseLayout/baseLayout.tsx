@@ -11,7 +11,13 @@ const BaseLayout = ({ children }: IProps) => {
     return (
         <>
             <Navbar />
-            <Container component="main" maxWidth={false}>{children}</Container>
+            <Container
+                component="main"
+                maxWidth={false}
+                sx={{ py: 3, px: 0 }}
+            >
+                {children}
+            </Container>
         </>
     )
 }
