@@ -1,12 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom'
+
 import App from './App'
 import Login from './features/auth/pages/login/login'
 import Signup from './features/auth/pages/signup/signup'
+import CreateProduct from './features/products/pages/createProduct/createProduct'
 import ProductDetails from './features/products/pages/productDetails/productDetails'
 import ProductList from './features/products/pages/productList/productList'
-import CreateProduct from './features/products/pages/createProduct/createProduct'
-import UserList from './features/users/pages/userList/userList'
 import UserDetails from './features/users/pages/userDetails/userDetails'
+import UserList from './features/users/pages/userList/userList'
 
 const router = createBrowserRouter([
     {

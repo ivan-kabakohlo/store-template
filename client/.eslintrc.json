@@ -17,7 +17,8 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "simple-import-sort"
     ],
     "rules": {
         "indent": [
@@ -51,6 +52,8 @@
             }
         ],
         "max-len": ["error", 100],
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error",
         "react/react-in-jsx-scope": "off",
         "react/jsx-filename-extension": [
             1,
