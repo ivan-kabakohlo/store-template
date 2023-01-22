@@ -27,8 +27,8 @@ instance.interceptors.response.use(
 
         if (
             error.response.status === 401 &&
-      !originalRequest.isRetry &&
-      routesWithAuth.some((route) => originalRequest.url.includes(route))
+            !originalRequest.isRetry &&
+            routesWithAuth.some((route) => originalRequest.url.includes(route))
         ) {
             try {
                 const refreshToken = localStorage.getItem('REFRESH_TOKEN')

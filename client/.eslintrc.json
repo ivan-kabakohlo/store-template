@@ -6,10 +6,10 @@
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
         "plugin:@typescript-eslint/recommended"
     ],
-    "overrides": [
-    ],
+    "overrides": [],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
@@ -17,6 +17,7 @@
     },
     "plugins": [
         "react",
+        "react-hooks",
         "@typescript-eslint",
         "simple-import-sort"
     ],
@@ -51,9 +52,22 @@
                 "functions": "always-multiline"
             }
         ],
-        "max-len": ["error", 100],
+        "max-len": [
+            "error",
+            100
+        ],
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error",
+        "no-param-reassign": [
+            "error",
+            {
+                "props": false
+            }
+        ],
+        "no-nested-ternary": "error",
+        "react/no-multi-comp": "error",
+        "react/no-unstable-nested-components": "error",
+        "react/sort-prop-types": "error",
         "react/react-in-jsx-scope": "off",
         "react/jsx-filename-extension": [
             1,
@@ -62,6 +76,8 @@
                     ".tsx"
                 ]
             }
-        ]
+        ],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn"
     }
 }

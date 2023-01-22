@@ -7,12 +7,12 @@ interface IProps {
 
 const ProductGallery = ({ imageUrl }: IProps) => {
     return (
-        <Box>
+        <Box height="60vh">
             <LazyLoadImage
                 src={imageUrl}
                 style={{
                     width: '100%',
-                    maxHeight: '80vh',
+                    height: '100%',
                     objectFit: 'contain',
                 }}
             />

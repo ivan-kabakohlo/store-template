@@ -14,7 +14,7 @@ const BaseLayout = ({ children }: IProps) => {
             <Container
                 component="main"
                 maxWidth={false}
-                sx={{ py: 3, px: 0 }}
+                sx={{ py: 4, px: 0 }}
             >
                 {children}
             </Container>

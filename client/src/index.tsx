@@ -2,8 +2,11 @@ import './index.css'
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 import { RouterProvider } from 'react-router-dom'
 
+import queryClient from './config/queryClient'
 import reportWebVitals from './reportWebVitals'
 import router from './router'
 
@@ -12,7 +15,10 @@ const root = ReactDOM.createRoot(
 )
 root.render(
     <React.StrictMode>
-        <RouterProvider router={router} />
+        <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+            <ReactQueryDevtools />
+        </QueryClientProvider>
     </React.StrictMode>,
 )
 

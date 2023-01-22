@@ -43,20 +43,50 @@ const ProductGridItem = ({
                     />
                 </CardContent>
 
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
+                <CardContent
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }}
+                >
+                    <Typography
+                        variant="h5"
+                        component="h2"
+                        mb={2}
+                        sx={{
+                            height: '2lh',
+                            display: '-webkit-box',
+                            overflow: 'hidden',
+                            WebkitBoxOrient: 'vertical',
+                            WebkitLineClamp: 2,
+                        }}
+                    >
                         {name}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography
+                        gutterBottom
+                        variant="body2"
+                        color="text.secondary"
+                        mb={3}
+                        sx={{
+                            height: '3lh',
+                            display: '-webkit-box',
+                            overflow: 'hidden',
+                            WebkitBoxOrient: 'vertical',
+                            WebkitLineClamp: 3,
+                        }}
+                    >
                         {description}
                     </Typography>
-                    <Typography variant="h6">
+                    <Typography variant="h5" component="p">
                         {price}$
                     </Typography>
                 </CardContent>
 
-                <CardActions sx={{ marginTop: 'auto' }}>
-                    <Button size="small">Add to Cart</Button>
+                <CardActions sx={{ marginTop: 'auto', padding: '16px' }}>
+                    <Button variant="contained" sx={{ width: '100%' }}>
+                        Add to Cart
+                    </Button>
                 </CardActions>
             </CardActionArea>
         </Card>
