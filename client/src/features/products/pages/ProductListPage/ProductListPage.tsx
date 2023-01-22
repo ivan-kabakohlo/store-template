@@ -14,7 +14,7 @@ const ProductListPage = () => {
     if (isLoading) {
         return (
             <Grid container justifyContent="center">
-                <Grid item>
+                <Grid item pt={30}>
                     <CircularProgress />
                 </Grid>
             </Grid>

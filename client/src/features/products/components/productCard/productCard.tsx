@@ -7,20 +7,20 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import { Link } from 'react-router-dom'
 
-import { IProduct } from '../../interfaces/product'
-
 interface IProps {
-    product: IProduct
+    id: number
+    name: string
+    description: string
+    imageUrl: string
+    price: string
 }
 
 const ProductCard = ({
-    product: {
-        id,
-        name,
-        description,
-        imageUrl,
-        price,
-    },
+    id,
+    name,
+    description,
+    imageUrl,
+    price,
 }: IProps) => {
     return (
         <Card sx={{ maxWidth: 345, height: '100%' }}>

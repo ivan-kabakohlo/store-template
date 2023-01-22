@@ -17,7 +17,7 @@ const ProductGrid = ({ products }: IProps) => {
         >
             {products.map((product) => (
                 <Grid item xs={2} sm={4} md={4} key={product.id}>
-                    <ProductCard product={product} />
+                    <ProductCard {...product} />
                 </Grid>
             ))}
         </Grid>
