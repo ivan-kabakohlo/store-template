@@ -7,4 +7,3 @@ export interface IUser {
     createdAt: string
     updatedAt: string
 }
-  
