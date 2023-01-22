@@ -1,7 +1,7 @@
 import Container from '@mui/material/Container'
 import { ReactNode } from 'react'
 
-import Navbar from '../../components/navbar/navbar'
+import Navbar from '../../components/Navbar/Navbar'
 
 interface IProps {
     children: ReactNode

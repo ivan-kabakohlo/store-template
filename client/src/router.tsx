@@ -1,13 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom'
 
 import App from './App'
-import Login from './features/auth/pages/login/login'
-import Signup from './features/auth/pages/signup/signup'
-import CreateProduct from './features/products/pages/createProduct/createProduct'
-import ProductDetails from './features/products/pages/productDetails/productDetails'
-import ProductList from './features/products/pages/productList/productList'
-import UserDetails from './features/users/pages/userDetails/userDetails'
-import UserList from './features/users/pages/userList/userList'
+import LoginPage from './features/auth/pages/LoginPage/LoginPage'
+import SignupPage from './features/auth/pages/SignupPage/SignupPage'
+import CreateProductPage from './features/products/pages/CreateProductPage/CreateProductPage'
+import ProductDetailsPage from './features/products/pages/ProductDetailsPage/ProductDetailsPage'
+import ProductListPage from './features/products/pages/ProductListPage/ProductListPage'
+import UserDetailsPage from './features/users/pages/UserDetailsPage/UserDetailsPage'
+import UserListPage from './features/users/pages/UserListPage/UserListPage'
 
 const router = createBrowserRouter([
     {
@@ -16,31 +16,31 @@ const router = createBrowserRouter([
         children: [
             {
                 path: 'login',
-                element: <Login />,
+                element: <LoginPage />,
             },
             {
                 path: 'signup',
-                element: <Signup />,
+                element: <SignupPage />,
             },
             {
                 path: 'users',
-                element: <UserList />,
+                element: <UserListPage />,
             },
             {
                 path: 'users/:id',
-                element: <UserDetails />,
+                element: <UserDetailsPage />,
             },
             {
                 path: 'products',
-                element: <ProductList />,
+                element: <ProductListPage />,
             },
             {
                 path: 'products/:id',
-                element: <ProductDetails />,
+                element: <ProductDetailsPage />,
             },
             {
                 path: 'products/create',
-                element: <CreateProduct />,
+                element: <CreateProductPage />,
             },
         ],
     },

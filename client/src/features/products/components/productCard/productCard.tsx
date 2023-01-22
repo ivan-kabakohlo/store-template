@@ -13,7 +13,7 @@ interface IProps {
     product: IProduct
 }
 
-const ProductGridItem = ({
+const ProductCard = ({
     product: {
         id,
         name,
@@ -93,4 +93,4 @@ const ProductGridItem = ({
     )
 }
 
-export default ProductGridItem
+export default ProductCard

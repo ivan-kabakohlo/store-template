@@ -4,11 +4,11 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { isAxiosError } from 'axios'
 
-import Error from '../../../../components/error/error'
+import Error from '../../../../components/Error/Error'
 import useProductList from '../../api/useProductList'
-import ProductGrid from '../../components/productGrid/productGrid'
+import ProductGrid from '../../components/ProductGrid/ProductGrid'
 
-const ProductList = () => {
+const ProductListPage = () => {
     const { isLoading, error, data } = useProductList()
 
     if (isLoading) {
@@ -33,10 +33,10 @@ const ProductList = () => {
     }
 
     return  (
-        <Container>
+        <Container maxWidth={false}>
             <ProductGrid products={data} />
         </Container>
     )
 }
 
-export default ProductList
+export default ProductListPage

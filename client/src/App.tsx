@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 
-import BaseLayout from './layouts/baseLayout/baseLayout'
+import BaseLayout from './layouts/BaseLayout/BaseLayout'
 
 const App = () => {
     return (
