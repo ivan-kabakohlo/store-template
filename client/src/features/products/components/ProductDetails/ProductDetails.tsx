@@ -27,7 +27,7 @@ const ProductDetails = ({
 
     return (
         <Grid container spacing={6}>
-            <Grid item sm={6}>
+            <Grid item md={6}>
                 <Box p={2} mb={2}>
                     <ProductGallery imageUrl={imageUrl} />
                 </Box>
@@ -38,7 +38,7 @@ const ProductDetails = ({
                 </Box>
             </Grid>
 
-            <Grid item sm={6}>
+            <Grid item md={6}>
                 <Box p={2} mb={2}>
                     <Grid container spacing={4}>
                         <Grid item xl={6}>

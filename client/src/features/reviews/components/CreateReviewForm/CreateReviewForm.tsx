@@ -1,8 +1,10 @@
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
+import { isAxiosError } from 'axios'
 import { ChangeEvent, FormEvent,useEffect,useState } from 'react'
 
+import Error from '../../../../components/Error/Error'
 import useCreateReview from '../../api/useCreateReview'
 
 interface IProps {
@@ -12,7 +14,8 @@ interface IProps {
 const CreateReviewForm = ({ productId }: IProps) => {
     const [reviewText, setReviewText] = useState('')
 
-    const { mutate, isLoading, isSuccess } = useCreateReview(productId)
+    const { mutate, isLoading, error, isSuccess } = useCreateReview(productId)
+    const errorMessage = isAxiosError(error) ? error.response?.data : ''
 
     useEffect(() => {
         if (isSuccess) {
@@ -40,6 +43,12 @@ const CreateReviewForm = ({ productId }: IProps) => {
             flexDirection="column"
             onSubmit={onSubmit}
         >
+            {error && (
+                <Box width="100%" mb={2}>
+                    <Error error={errorMessage} />
+                </Box>
+            )}
+
             <TextField
                 id="review"
                 name="review"
@@ -47,6 +56,7 @@ const CreateReviewForm = ({ productId }: IProps) => {
                 value={reviewText}
                 onChange={onChangeReviewText}
                 multiline
+                required
                 rows={2}
             />
 
