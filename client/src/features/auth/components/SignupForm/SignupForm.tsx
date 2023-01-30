@@ -125,7 +125,7 @@ const SignupForm = () => {
                 size="large"
                 disabled={isLoading}
             >
-                Sign In
+                Sign Up
             </Button>
         </Box>
     )
