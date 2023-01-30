@@ -39,6 +39,7 @@ const Navbar = () => {
 
     const settings = useMemo<ISettingsMenuItem[]>(
         () => isAuthenticated ? [
+            { path: '/products/create', label: 'Create Product' },
             { path: null, label: 'Log Out', isLogout: true },
         ] : [
             { path: '/login', label: 'Sign In' },
