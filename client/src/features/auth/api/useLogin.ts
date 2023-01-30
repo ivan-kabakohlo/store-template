@@ -16,7 +16,7 @@ interface ILoginResData {
     user: IUser
 }
 
-const useLogin = ({ onSuccess }: { onSuccess: () => void }) => {
+const useLogin = () => {
     const { setIsAuthenticated, setUser } = useAuthContext()
 
     return useMutation<ILoginResData, AxiosError, ILoginReqBody>({
@@ -30,8 +30,6 @@ const useLogin = ({ onSuccess }: { onSuccess: () => void }) => {
 
             localStorage.setItem('ACCESS_TOKEN', accessToken)
             localStorage.setItem('REFRESH_TOKEN', refreshToken)
-
-            onSuccess()
         },
     })
 }

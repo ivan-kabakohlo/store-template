@@ -2,8 +2,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import { isAxiosError } from 'axios'
-import { ChangeEvent, FormEvent } from 'react'
-import { useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Error from '../../../../components/Error/Error'
@@ -15,10 +14,14 @@ const LoginForm = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    const { mutate, isLoading, error } = useLogin({
-        onSuccess: () => navigate('/products'),
-    })
+    const { mutate, isLoading, error, isSuccess } = useLogin()
     const errorMessage = isAxiosError(error) ? error.response?.data : ''
+
+    useEffect(() => {
+        if (isSuccess) {
+            navigate('/products')
+        }
+    }, [isSuccess, navigate])
 
     const onChangeUsername = (event: ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value)

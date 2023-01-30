@@ -19,7 +19,7 @@ interface ISignUpResData {
     user: IUser
 }
 
-const useSignup = ({ onSuccess }: { onSuccess: () => void }) => {
+const useSignup = () => {
     const { setIsAuthenticated, setUser } = useAuthContext()
 
     return useMutation<ISignUpResData, AxiosError, ISignUpReqBody>({
@@ -33,8 +33,6 @@ const useSignup = ({ onSuccess }: { onSuccess: () => void }) => {
 
             localStorage.setItem('ACCESS_TOKEN', accessToken)
             localStorage.setItem('REFRESH_TOKEN', refreshToken)
-
-            onSuccess()
         },
     })
 }
