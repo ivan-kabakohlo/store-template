@@ -3,16 +3,28 @@ import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
+import useReviews from '../../../reviews/api/useReviews'
+import CreateReviewForm from '../../../reviews/components/CreateReviewForm/CreateReviewForm'
+import ReviewList from '../../../reviews/components/ReviewList/ReviewList'
 import ProductGallery from '../ProductGallery/ProductGallery'
 
 interface IProps {
+    id: number
     name: string
     description: string
     imageUrl: string
     price: string
 }
 
-const ProductDetails = ({ name, description, imageUrl, price }: IProps) => {
+const ProductDetails = ({
+    id,
+    name,
+    description,
+    imageUrl,
+    price,
+}: IProps) => {
+    const { data: reviews } = useReviews(id)
+
     return (
         <Grid container spacing={6}>
             <Grid item sm={6}>
@@ -47,6 +59,11 @@ const ProductDetails = ({ name, description, imageUrl, price }: IProps) => {
                             </Button>
                         </Grid>
                     </Grid>
+                </Box>
+
+                <Box>
+                    <CreateReviewForm productId={id} />
+                    {reviews &&  <ReviewList reviews={reviews} />}
                 </Box>
             </Grid>
         </Grid>
