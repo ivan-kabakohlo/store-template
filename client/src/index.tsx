@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { RouterProvider } from 'react-router-dom'
 
 import queryClient from './config/queryClient'
+import { AuthProvider } from './contexts/AuthContext'
 import reportWebVitals from './reportWebVitals'
 import router from './router'
 
@@ -15,10 +16,12 @@ const root = ReactDOM.createRoot(
 )
 root.render(
     <React.StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-            <ReactQueryDevtools />
-        </QueryClientProvider>
+        <AuthProvider>
+            <QueryClientProvider client={queryClient}>
+                <RouterProvider router={router} />
+                <ReactQueryDevtools />
+            </QueryClientProvider>
+        </AuthProvider>
     </React.StrictMode>,
 )
 

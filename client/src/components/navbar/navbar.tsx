@@ -11,18 +11,40 @@ import MenuItem from '@mui/material/MenuItem'
 import Toolbar from '@mui/material/Toolbar'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-import { MouseEvent, useState } from 'react'
+import { MouseEvent, useMemo,useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const pages = [
-    { path: '/products', label: 'Products' },
-    { path: '/users', label: 'Users' },
-]
-const settings = ['Sign In', 'Logout']
+import useAuthContext from '../../contexts/AuthContext'
+import logout from '../../features/auth/api/logout'
 
-function Navbar() {
+interface ISettingsMenuItem {
+    path: string | null
+    label: string
+    isLogout?: boolean
+}
+
+const Navbar = () => {
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
+
+    const { isAuthenticated, user } = useAuthContext()
+
+    const pages = useMemo(
+        () => [
+            { path: '/products', label: 'Products' },
+            { path: '/users', label: 'Users' },
+        ],
+        [],
+    )
+
+    const settings = useMemo<ISettingsMenuItem[]>(
+        () => isAuthenticated ? [
+            { path: null, label: 'Log Out', isLogout: true },
+        ] : [
+            { path: '/login', label: 'Sign In' },
+        ],
+        [isAuthenticated],
+    )
 
     const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget)
@@ -30,11 +52,9 @@ function Navbar() {
     const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget)
     }
-
     const handleCloseNavMenu = () => {
         setAnchorElNav(null)
     }
-
     const handleCloseUserMenu = () => {
         setAnchorElUser(null)
     }
@@ -142,7 +162,10 @@ function Navbar() {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="" />
+                                <Avatar
+                                    alt={user?.username || 'Anonymous user'}
+                                    src={user?.avatarUrl}
+                                />
                             </IconButton>
                         </Tooltip>
 
@@ -162,11 +185,24 @@ function Navbar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
+                            {settings.map((setting) => {
+                                const menuItemProps = setting.isLogout
+                                    ? { onClick: logout }
+                                    : {
+                                        component: Link,
+                                        to: setting.path,
+                                        onClick: handleCloseUserMenu,
+                                    }
+
+                                return (
+                                    <MenuItem
+                                        key={setting.label}
+                                        {...menuItemProps}
+                                    >
+                                        <Typography textAlign="center">{setting.label}</Typography>
+                                    </MenuItem>
+                                )
+                            })}
                         </Menu>
                     </Box>
                 </Toolbar>
