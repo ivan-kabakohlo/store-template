@@ -1,10 +1,14 @@
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 import { isAxiosError } from 'axios'
 import { ChangeEvent, FormEvent,useEffect,useState } from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 
 import Error from '../../../../components/Error/Error'
+import useAuthContext from '../../../auth/contexts/AuthContext'
 import useCreateReview from '../../api/useCreateReview'
 
 interface IProps {
@@ -12,6 +16,7 @@ interface IProps {
 }
 
 const CreateReviewForm = ({ productId }: IProps) => {
+    const { isAuthenticated } = useAuthContext()
     const [reviewText, setReviewText] = useState('')
 
     const { mutate, isLoading, error, isSuccess } = useCreateReview(productId)
@@ -31,6 +36,29 @@ const CreateReviewForm = ({ productId }: IProps) => {
         event.preventDefault()
 
         mutate(reviewText)
+    }
+
+    if (!isAuthenticated) {
+        return (
+            <Box
+                p={2}
+                gap={2}
+                sx={{ maxWidth: 600 }}
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+            >
+                <Typography variant="body2" component="p">
+                    <Link
+                        variant="body2"
+                        component={RouterLink}
+                        to="/login"
+                    >
+                        Log in
+                    </Link> to leave review.
+                </Typography>
+            </Box>
+        )
     }
 
     return (
