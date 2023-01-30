@@ -41,6 +41,7 @@ const SignupForm = () => {
 
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
+
         mutate({
             username,
             email,
@@ -121,7 +122,7 @@ const SignupForm = () => {
                 size="large"
                 disabled={isLoading}
             >
-        Sign In
+                Sign In
             </Button>
         </Box>
     )

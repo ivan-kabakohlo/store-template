@@ -14,8 +14,8 @@ import Typography from '@mui/material/Typography'
 import { MouseEvent, useMemo,useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import useAuthContext from '../../contexts/AuthContext'
 import logout from '../../features/auth/api/logout'
+import useAuthContext from '../../features/auth/contexts/AuthContext'
 
 interface ISettingsMenuItem {
     path: string | null

@@ -7,7 +7,7 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { RouterProvider } from 'react-router-dom'
 
 import queryClient from './config/queryClient'
-import { AuthProvider } from './contexts/AuthContext'
+import { AuthProvider } from './features/auth/contexts/AuthContext'
 import reportWebVitals from './reportWebVitals'
 import router from './router'
 

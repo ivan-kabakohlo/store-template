@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { createContext, useContext,useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 
-import { IUser } from '../features/users/interfaces/user'
+import { IUser } from '../../users/interfaces/user'
 
 interface IAuthContext {
     isAuthenticated: boolean

@@ -2,8 +2,8 @@ import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
 
 import axios from '../../../config/axios'
-import useAuthContext from '../../../contexts/AuthContext'
 import { IUser } from '../../users/interfaces/user'
+import useAuthContext from '../contexts/AuthContext'
 
 interface ILoginReqBody {
     username: string

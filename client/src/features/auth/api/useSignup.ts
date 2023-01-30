@@ -2,10 +2,10 @@ import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
 
 import axios from '../../../config/axios'
-import useAuthContext from '../../../contexts/AuthContext'
 import { IUser } from '../../users/interfaces/user'
+import useAuthContext from '../contexts/AuthContext'
 
-export interface ISignUpReqBody {
+interface ISignUpReqBody {
     email: string
     password: string
     username: string
@@ -13,7 +13,7 @@ export interface ISignUpReqBody {
     about: string
 }
   
-export interface ISignUpResData {
+interface ISignUpResData {
     accessToken: string
     refreshToken: string
     user: IUser
