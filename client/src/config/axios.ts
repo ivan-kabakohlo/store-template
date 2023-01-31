@@ -9,7 +9,7 @@ const instance = axios.create({
     },
 })
 
-const routesRequireAuth = ['/products', '/comments', '/users']
+const routesRequireAuth = ['/products', '/reviews', '/users']
 
 instance.interceptors.request.use(
     (config) => {

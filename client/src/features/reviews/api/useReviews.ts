@@ -9,7 +9,7 @@ export const REVIEWS_BY_PRODUCT_ID_QUERY_KEY = 'REVIEWS_BY_PRODUCT_ID'
 const useReviews = (productId: number) =>
     useQuery<IReview[], AxiosError>({
         queryKey: [REVIEWS_BY_PRODUCT_ID_QUERY_KEY, productId],
-        queryFn: async () => (await axios.get<IReview[]>(`/comments?productId=${productId}`)).data,
+        queryFn: async () => (await axios.get<IReview[]>(`/reviews?productId=${productId}`)).data,
         enabled: !!productId,
     })
 

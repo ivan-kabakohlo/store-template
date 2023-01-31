@@ -10,7 +10,7 @@ const useCreateReview = (productId: number) => {
 
     return useMutation<IReview, AxiosError, string>({
         mutationFn: async (review: string) =>
-            (await axios.post<IReview>('/comments', { productId, text: review })).data,
+            (await axios.post<IReview>('/reviews', { productId, text: review })).data,
         onSuccess: data => {
             queryClient.setQueryData<IReview[]>(
                 [REVIEWS_BY_PRODUCT_ID_QUERY_KEY, productId],
