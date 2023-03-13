@@ -33,7 +33,7 @@ const CreateProductForm = () => {
             navigate(`/products/${data.id}`)
             formik.resetForm()
         }
-    }, [isSuccess, data, navigate])
+    }, [isSuccess, data, navigate, formik])
 
     return (
         <Box
