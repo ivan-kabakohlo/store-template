@@ -4,7 +4,8 @@ import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { isAxiosError } from 'axios'
-import { ChangeEvent, FormEvent,useEffect,useState } from 'react'
+import { useFormik } from 'formik'
+import { useEffect } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 
 import Error from '../../../../components/Error/Error'
@@ -17,26 +18,26 @@ interface IProps {
 
 const CreateReviewForm = ({ productId }: IProps) => {
     const { isAuthenticated } = useAuthContext()
-    const [reviewText, setReviewText] = useState('')
 
     const { mutate, isLoading, error, isSuccess } = useCreateReview(productId)
+
     const errorMessage = isAxiosError(error) ? error.response?.data : ''
+
+    const formik = useFormik({
+        initialValues: {
+            reviewText: '',
+        },
+        onSubmit: (values, { resetForm }) => {
+            mutate(values.reviewText)
+            resetForm()
+        },
+    })
 
     useEffect(() => {
         if (isSuccess) {
-            setReviewText('')
+            formik.resetForm()
         }
-    }, [isSuccess])
-
-    const onChangeReviewText = (event: ChangeEvent<HTMLInputElement>) => {
-        setReviewText(event.target.value)
-    }
-
-    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-
-        mutate(reviewText)
-    }
+    }, [formik, isSuccess])
 
     if (!isAuthenticated) {
         return (
@@ -69,7 +70,7 @@ const CreateReviewForm = ({ productId }: IProps) => {
             sx={{ maxWidth: 600 }}
             display="flex"
             flexDirection="column"
-            onSubmit={onSubmit}
+            onSubmit={formik.handleSubmit}
         >
             {error && (
                 <Box width="100%" mb={2}>
@@ -78,11 +79,11 @@ const CreateReviewForm = ({ productId }: IProps) => {
             )}
 
             <TextField
-                id="review"
-                name="review"
+                id="reviewText"
+                name="reviewText"
                 label="Write a Review"
-                value={reviewText}
-                onChange={onChangeReviewText}
+                value={formik.values.reviewText}
+                onChange={formik.handleChange}
                 multiline
                 required
                 rows={2}

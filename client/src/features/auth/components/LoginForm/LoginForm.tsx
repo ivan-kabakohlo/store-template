@@ -2,7 +2,8 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import { isAxiosError } from 'axios'
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { useFormik } from 'formik'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Error from '../../../../components/Error/Error'
@@ -11,29 +12,25 @@ import useLogin from '../../api/useLogin'
 const LoginForm = () => {
     const navigate = useNavigate()
 
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-
     const { mutate, isLoading, error, isSuccess } = useLogin()
+
     const errorMessage = isAxiosError(error) ? error.response?.data : ''
+
+    const formik = useFormik({
+        initialValues: {
+            username: '',
+            password: '',
+        },
+        onSubmit: (values) => {
+            mutate(values)
+        },
+    })
 
     useEffect(() => {
         if (isSuccess) {
             navigate('/products')
         }
     }, [isSuccess, navigate])
-
-    const onChangeUsername = (event: ChangeEvent<HTMLInputElement>) => {
-        setUsername(event.target.value)
-    }
-    const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value)
-    }
-    
-    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        mutate({ username, password })
-    }
 
     return (
         <Box
@@ -42,7 +39,7 @@ const LoginForm = () => {
             display="flex"
             flexDirection="column"
             gap={2}
-            onSubmit={onSubmit}
+            onSubmit={formik.handleSubmit}
         >
             {error && (
                 <Box width="100%" mb={2}>
@@ -55,18 +52,18 @@ const LoginForm = () => {
                 name="username"
                 type="text"
                 label="Username"
-                value={username}
-                onChange={onChangeUsername}
+                value={formik.values.username}
+                onChange={formik.handleChange}
                 required
             />
 
             <TextField
                 id="password"
-                name="username"
+                name="password"
                 type="password"
                 label="Password"
-                value={password}
-                onChange={onChangePassword}
+                value={formik.values.password}
+                onChange={formik.handleChange}
                 required
             />
 

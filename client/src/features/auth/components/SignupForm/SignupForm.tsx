@@ -2,7 +2,8 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import { isAxiosError } from 'axios'
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { useFormik } from 'formik'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Error from '../../../../components/Error/Error'
@@ -11,48 +12,28 @@ import useSignup from '../../api/useSignup'
 const SignupForm = () => {
     const navigate = useNavigate()
 
-    const [username, setUsername] = useState('')
-    const [email, setEmail] = useState('')
-    const [avatarUrl, setAvatarUrl] = useState('')
-    const [about, setAbout] = useState('')
-    const [password, setPassword] = useState('')
-
     const { mutate, isLoading, error, isSuccess } = useSignup()
+
     const errorMessage = isAxiosError(error) ? error.response?.data : ''
+
+    const formik = useFormik({
+        initialValues: {
+            username: '',
+            email: '',
+            avatarUrl: '',
+            about: '',
+            password: '',
+        },
+        onSubmit: values => {
+            mutate(values)
+        },
+    })
 
     useEffect(() => {
         if (isSuccess) {
             navigate('/products')
         }
     }, [isSuccess, navigate])
-
-    const onChangeUsername = (event: ChangeEvent<HTMLInputElement>) => {
-        setUsername(event.target.value)
-    }
-    const onChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
-        setEmail(event.target.value)
-    }
-    const onChangeAvatarUrl = (event: ChangeEvent<HTMLInputElement>) => {
-        setAvatarUrl(event.target.value)
-    }
-    const onChangeAbout = (event: ChangeEvent<HTMLInputElement>) => {
-        setAbout(event.target.value)
-    }
-    const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value)
-    }
-
-    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-
-        mutate({
-            username,
-            email,
-            avatarUrl,
-            about,
-            password,
-        })
-    }
 
     return (
         <Box
@@ -61,7 +42,7 @@ const SignupForm = () => {
             display="flex"
             flexDirection="column"
             gap={2}
-            onSubmit={onSubmit}
+            onSubmit={formik.handleSubmit}
         >
             {error && (
                 <Box width="100%" mb={2}>
@@ -74,8 +55,8 @@ const SignupForm = () => {
                 name="username"
                 type="text"
                 label="Username"
-                value={username}
-                onChange={onChangeUsername}
+                value={formik.values.username}
+                onChange={formik.handleChange}
                 required
             />
 
@@ -84,8 +65,8 @@ const SignupForm = () => {
                 name="email"
                 type="text"
                 label="Email"
-                value={email}
-                onChange={onChangeEmail}
+                value={formik.values.email}
+                onChange={formik.handleChange}
                 required
             />
 
@@ -94,27 +75,27 @@ const SignupForm = () => {
                 name="avatarUrl"
                 type="text"
                 label="Link to the avatar"
-                value={avatarUrl}
-                onChange={onChangeAvatarUrl}
+                value={formik.values.avatarUrl}
+                onChange={formik.handleChange}
             />
 
             <TextField
                 id="about"
                 name="about"
                 label="About"
-                value={about}
-                onChange={onChangeAbout}
+                value={formik.values.about}
+                onChange={formik.handleChange}
                 multiline
                 rows={3}
             />
 
             <TextField
                 id="password"
-                name="username"
+                name="password"
                 type="password"
                 label="Password"
-                value={password}
-                onChange={onChangePassword}
+                value={formik.values.password}
+                onChange={formik.handleChange}
                 required
             />
 

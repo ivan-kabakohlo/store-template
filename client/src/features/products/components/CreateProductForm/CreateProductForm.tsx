@@ -2,7 +2,8 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import { isAxiosError } from 'axios'
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { useFormik } from 'formik'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Error from '../../../../components/Error/Error'
@@ -11,43 +12,28 @@ import useCreateProduct from '../../api/useCreateProduct'
 const CreateProductForm = () => {
     const navigate = useNavigate()
 
-    const [name, setName] = useState('')
-    const [price, setPrice] = useState('')
-    const [description, setDescription] = useState('')
-    const [imageUrl, setImageUrl] = useState('')
-
     const { mutate, isLoading, isSuccess, data, error } = useCreateProduct()
+
     const errorMessage = isAxiosError(error) ? error.response?.data : ''
+
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            price: '',
+            description: '',
+            imageUrl: '',
+        },
+        onSubmit: (values) => {
+            mutate({ ...values, price: +values.price })
+        },
+    })
 
     useEffect(() => {
         if (isSuccess) {
             navigate(`/products/${data.id}`)
+            formik.resetForm()
         }
     }, [isSuccess, data, navigate])
-
-    const onChangeName = (event: ChangeEvent<HTMLInputElement>) => {
-        setName(event.target.value)
-    }
-    const onChangePrice = (event: ChangeEvent<HTMLInputElement>) => {
-        setPrice(event.target.value)
-    }
-    const onChangeDescription = (event: ChangeEvent<HTMLInputElement>) => {
-        setDescription(event.target.value)
-    }
-    const onChangeImageUrl = (event: ChangeEvent<HTMLInputElement>) => {
-        setImageUrl(event.target.value)
-    }
-
-    const onSubmit = (event: FormEvent) => {
-        event.preventDefault()
-
-        mutate({
-            name,
-            description,
-            price: +price,
-            imageUrl,
-        })
-    }
 
     return (
         <Box
@@ -56,7 +42,7 @@ const CreateProductForm = () => {
             display="flex"
             flexDirection="column"
             gap={2}
-            onSubmit={onSubmit}
+            onSubmit={formik.handleSubmit}
         >
             {error && (
                 <Box width="100%" mb={2}>
@@ -69,8 +55,8 @@ const CreateProductForm = () => {
                 name="name"
                 type="text"
                 label="Product Name"
-                value={name}
-                onChange={onChangeName}
+                value={formik.values.name}
+                onChange={formik.handleChange}
                 required
             />
 
@@ -79,8 +65,8 @@ const CreateProductForm = () => {
                 name="price"
                 type="number"
                 label="Price"
-                value={price}
-                onChange={onChangePrice}
+                value={formik.values.price}
+                onChange={formik.handleChange}
                 required
             />
 
@@ -89,8 +75,8 @@ const CreateProductForm = () => {
                 name="description"
                 type="text"
                 label="Description"
-                value={description}
-                onChange={onChangeDescription}
+                value={formik.values.description}
+                onChange={formik.handleChange}
                 multiline
                 rows={3}
             />
@@ -100,8 +86,8 @@ const CreateProductForm = () => {
                 name="imageUrl"
                 type="text"
                 label="Image URL"
-                value={imageUrl}
-                onChange={onChangeImageUrl}
+                value={formik.values.imageUrl}
+                onChange={formik.handleChange}
             />
 
             <Button
