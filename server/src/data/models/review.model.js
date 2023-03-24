@@ -8,6 +8,9 @@ const Review = sequelize.define(
         text: {
             allowNull: false,
             type: DataTypes.STRING,
+            validate: {
+                len: [2, 150],
+            },
         },
         createdAt: DataTypes.DATE,
         updatedAt: DataTypes.DATE,

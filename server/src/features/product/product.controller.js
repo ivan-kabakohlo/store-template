@@ -1,6 +1,8 @@
+const { ValidationError } = require('sequelize')
+
 const productRepository = require('../../data/repositories/product.repository')
 
-const productValidators = require('./product.validators')
+const constructValidationError = require('../../utils/constructValidationError.util')
 
 const readAll = async (req, res, next) => {
     try {
@@ -27,16 +29,12 @@ const readById = async (req, res, next) => {
 
 const create = async (req, res, next) => {
     try {
-        productValidators.validateRequiredFields(req.body)
-        productValidators.validateValues(req.body)
-    } catch (err) {
-        return res.status(422).send(`Validation Error! ${err.message}`)
-    }
-
-    try {
         const newProduct = await productRepository.create({ ...req.body, userId: req.user.id })
         res.send(newProduct)
     } catch (err) {
+        if (err instanceof ValidationError) {
+            return res.status(422).send(constructValidationError(err))
+        }
         next(err)
     }
 }
@@ -52,15 +50,12 @@ const updateById = async (req, res, next) => {
     }
 
     try {
-        productValidators.validateValues(req.body)
-    } catch (err) {
-        return res.status(422).send(`Validation Error! ${err.message}`)
-    }
-
-    try {
         const updatedProduct = await productRepository.updateById(req.params.id, req.body)
         res.send(updatedProduct)
     } catch (err) {
+        if (err instanceof ValidationError) {
+            return res.status(422).send(constructValidationError(err))
+        }
         next(err)
     }
 }

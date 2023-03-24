@@ -1,6 +1,8 @@
+const { ValidationError } = require('sequelize')
+
 const reviewRepository = require('../../data/repositories/review.repository')
 
-const reviewValidators = require('./review.validators')
+const constructValidationError = require('../../utils/constructValidationError.util')
 
 const readAll = async (req, res, next) => {
     try {
@@ -27,40 +29,28 @@ const readById = async (req, res, next) => {
 
 const create = async (req, res, next) => {
     try {
-        reviewValidators.validateRequiredFields(req.body)
-        reviewValidators.validateValues(req.body)
-    } catch (err) {
-        return res.status(422).send(`Validation Error! ${err.message}`)
-    }
-
-    try {
         const newComment = await reviewRepository.create({ ...req.body, userId: req.user.id })
         res.send(newComment)
     } catch (err) {
+        if (err instanceof ValidationError) {
+            return res.status(422).send(constructValidationError(err))
+        }
         next(err)
     }
 }
 
 const updateById = async (req, res, next) => {
-    const review = await reviewRepository.readById(req.params.id)
-
-    if (!review) {
-        return res.status(400).send('Bad Request')
-    }
-    if (review.user.id !== req.user.id) {
+    if ('userId' in req.body || 'productId' in req.body) {
         return res.status(403).send('Forbidden')
-    }
-
-    try {
-        reviewValidators.validateValues(req.body, true)
-    } catch (err) {
-        return res.status(422).send(`Validation Error! ${err.message}`)
     }
 
     try {
         const updatedComment = await reviewRepository.updateById(req.params.id, req.body)
         res.send(updatedComment)
     } catch (err) {
+        if (err instanceof ValidationError) {
+            return res.status(422).send(constructValidationError(err))
+        }
         next(err)
     }
 }

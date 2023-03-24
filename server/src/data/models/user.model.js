@@ -8,20 +8,35 @@ const User = sequelize.define(
         email: {
             allowNull: false,
             type: DataTypes.STRING,
+            validate: {
+                isEmail: true,
+            },
         },
         password: {
             allowNull: false,
             type: DataTypes.STRING,
+            validate: {
+                len: [4, 20],
+            },
         },
         username: {
             allowNull: false,
             type: DataTypes.STRING,
+            validate: {
+                len: [4, 20],
+            },
         },
         about: {
             type: DataTypes.STRING,
+            validate: {
+                len: [0, 150],
+            },
         },
         avatarUrl: {
             type: DataTypes.STRING,
+            validate: {
+                isUrl: true,
+            },
         },
         createdAt: DataTypes.DATE,
         updatedAt: DataTypes.DATE,
