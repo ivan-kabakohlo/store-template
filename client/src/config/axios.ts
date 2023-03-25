@@ -3,7 +3,7 @@ import axios from 'axios'
 import logout from '../features/auth/api/logout'
 
 const instance = axios.create({
-    baseURL: 'http://localhost:3001/api',
+    baseURL: process.env.REACT_APP_API_BASE_URL,
     headers: {
         'Content-Type': 'application/json; charset=utf-8',
     },
