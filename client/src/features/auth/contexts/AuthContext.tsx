@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import { createContext, useContext, useState } from 'react'
+import { createContext, PropsWithChildren,useContext, useState } from 'react'
 
 import { IUser } from '../../users/interfaces/user'
 
@@ -13,15 +12,13 @@ interface IAuthContext {
 const initialValue: IAuthContext = {
     isAuthenticated: false,
     user: null,
-    setIsAuthenticated: () => {},
-    setUser: () => {},
+    setIsAuthenticated: () => void 0,
+    setUser: () => void 0,
 }
 
 export const AuthContext = createContext<IAuthContext>(initialValue)
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-export const AuthProvider = (props) => {
+export const AuthProvider = (props: PropsWithChildren) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [user, setUser] = useState<IUser | null>(null)
 
