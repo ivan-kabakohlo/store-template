@@ -1,3 +1,5 @@
+const { Op } = require('sequelize')
+
 const { UserModel } = require('../models')
 
 const readAll = async () =>
@@ -12,9 +14,19 @@ const readById = async (id) =>
         attributes: { exclude: ['password'] },
     })
 
-const readByUsername = async (username) =>
+const readByUsernameOrEmail = async (username, email) =>
     UserModel.findOne({
-        where: { username },
+        where: {
+            [Op.or]: [
+                { username },
+                { email },
+            ],
+        },
+    })
+
+const readByCreds = async (username, password) =>
+    UserModel.findOne({
+        where: { username, password },
     })
 
 const create = async (data) => {
@@ -35,7 +47,8 @@ const deleteById = async (id) => UserModel.destroy({ where: { id } })
 module.exports = {
     readAll,
     readById,
-    readByUsername,
+    readByUsernameOrEmail,
+    readByCreds,
     create,
     updateById,
     deleteById,

@@ -1,23 +1,17 @@
+const { ValidationError } = require('sequelize')
 const jwt = require('jsonwebtoken')
 
 const refreshTokens = require('../../refreshTokens')
 
 const userRepository = require('../../data/repositories/user.repository')
 
-const authValidators = require('./auth.validators')
+const constructValidationError = require('../../utils/constructValidationError.util')
 
 const login = async (req, res, next) => {
-    try {
-        authValidators.validateLoginRequiredFields(req.body)
-        authValidators.validateLoginValues(req.body)
-    } catch (err) {
-        return res.status(422).send(`Validation Error! ${err.message}`)
-    }
-
-    const { username, password } = req.body
+    const { username = '', password = '' } = req.body
 
     try {
-        const user = await userRepository.readByUsername(username)
+        const user = await userRepository.readByCreds(username, password)
 
         if (!user) {
             return res.status(404).send('User not found')
@@ -50,29 +44,21 @@ const login = async (req, res, next) => {
 const signup = async (req, res, next) => {
     const { username, email } = req.body
 
-    const users = await userRepository.readAll()
-    let userExistsError = ''
+    const user = await userRepository.readByUsernameOrEmail(username, email)
 
-    users.forEach((user) => {
+    if (user) {
+        let userExistsError = ''
+
         if (user.email === email) {
-            return (userExistsError = 'User with this email already exists.')
+            userExistsError = 'User with this email already exists.'
         }
         if (user.username === username) {
-            return (userExistsError = 'User with this username already exists.')
+            userExistsError = 'User with this username already exists.'
         }
-    })
 
-    if (userExistsError) {
         return res.status(422).send(userExistsError)
-    }
 
-    try {
-        authValidators.validateSignupRequiredFields(req.body)
-        authValidators.validateSignupValues(req.body)
-    } catch (err) {
-        return res.status(422).send(`Validation Error! ${err.message}`)
     }
-
     try {
         const newUser = await userRepository.create(req.body)
         delete newUser.password
@@ -91,6 +77,9 @@ const signup = async (req, res, next) => {
         refreshTokens.push(refreshToken)
         return res.send({ user: newUser, accessToken, refreshToken })
     } catch (err) {
+        if (err instanceof ValidationError) {
+            return res.status(422).send(constructValidationError(err))
+        }
         next(err)
     }
 }
